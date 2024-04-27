@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 // CaseField represents a Case Field
 type CaseField struct {

@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 // Priority represents a Priority
 type Priority struct {

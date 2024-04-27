@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"fmt"
@@ -28,7 +28,12 @@ type SendableProject struct {
 // GetProject returns the existing project projectID
 func (c *Client) GetProject(projectID int) (Project, error) {
 	returnProject := Project{}
-	err := c.sendRequest("GET", "get_project/"+strconv.Itoa(projectID), nil, &returnProject)
+	err := c.sendRequest(
+		"GET",
+		"get_project/"+strconv.Itoa(projectID),
+		nil,
+		&returnProject,
+	)
 	return returnProject, err
 }
 
@@ -58,7 +63,11 @@ func (c *Client) AddProject(newProject SendableProject) (Project, error) {
 }
 
 // UpdateProject updates the existing project projectID and returns it
-func (c *Client) UpdateProject(projectID int, updates SendableProject, isCompleted ...bool) (Project, error) {
+func (c *Client) UpdateProject(
+	projectID int,
+	updates SendableProject,
+	isCompleted ...bool,
+) (Project, error) {
 	updatedProject := Project{}
 	uri := "update_project/" + strconv.Itoa(projectID)
 	if len(isCompleted) > 0 {
@@ -72,5 +81,10 @@ func (c *Client) UpdateProject(projectID int, updates SendableProject, isComplet
 
 // DeleteProject deletes the project projectID
 func (c *Client) DeleteProject(projectID int) error {
-	return c.sendRequest("POST", "delete_project/"+strconv.Itoa(projectID), nil, nil)
+	return c.sendRequest(
+		"POST",
+		"delete_project/"+strconv.Itoa(projectID),
+		nil,
+		nil,
+	)
 }

@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"html/template"
@@ -43,7 +43,12 @@ func (f *resultField) GoType() string {
 // Make a valid Go name from a TestRail field name
 func (f *resultField) GoSystemName() string {
 	camelCase := func(s string) string {
-		return strings.Replace(strings.Title(strings.Replace(s, "_", " ", -1)), " ", "", -1)
+		return strings.Replace(
+			strings.Title(strings.Replace(s, "_", " ", -1)),
+			" ",
+			"",
+			-1,
+		)
 	}
 	return camelCase(f.SystemName)
 }

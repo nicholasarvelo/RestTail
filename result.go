@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -87,7 +87,10 @@ type SendableResultsForCase struct {
 
 // GetResults returns a list of results for the test testID
 // validating the filters
-func (c *Client) GetResults(testID int, filters ...RequestFilterForCaseResults) ([]Result, error) {
+func (c *Client) GetResults(
+	testID int,
+	filters ...RequestFilterForCaseResults,
+) ([]Result, error) {
 	returnResults := []Result{}
 	uri := "get_results/" + strconv.Itoa(testID)
 
@@ -105,7 +108,10 @@ func (c *Client) GetResults(testID int, filters ...RequestFilterForCaseResults) 
 
 // GetResultsForCase returns a list of results for the case caseID
 // on run runID validating the filters
-func (c *Client) GetResultsForCase(runID, caseID int, filters ...RequestFilterForCaseResults) ([]Result, error) {
+func (c *Client) GetResultsForCase(
+	runID, caseID int,
+	filters ...RequestFilterForCaseResults,
+) ([]Result, error) {
 	returnResults := []Result{}
 	uri := "get_results_for_case/" + strconv.Itoa(runID) + "/" + strconv.Itoa(caseID)
 
@@ -123,7 +129,10 @@ func (c *Client) GetResultsForCase(runID, caseID int, filters ...RequestFilterFo
 
 // GetResultsForRun returns a list of results for the run runID
 // validating the filters
-func (c *Client) GetResultsForRun(runID int, filters ...RequestFilterForRunResults) ([]Result, error) {
+func (c *Client) GetResultsForRun(
+	runID int,
+	filters ...RequestFilterForRunResults,
+) ([]Result, error) {
 	returnResults := []Result{}
 	uri := "get_results_for_run/" + strconv.Itoa(runID)
 
@@ -140,14 +149,25 @@ func (c *Client) GetResultsForRun(runID int, filters ...RequestFilterForRunResul
 }
 
 // AddResult adds a new result, comment or assigns a test to testID
-func (c *Client) AddResult(testID int, newResult SendableResult) (Result, error) {
+func (c *Client) AddResult(testID int, newResult SendableResult) (
+	Result,
+	error,
+) {
 	createdResult := Result{}
-	err := c.sendRequest("POST", "add_result/"+strconv.Itoa(testID), newResult, &createdResult)
+	err := c.sendRequest(
+		"POST",
+		"add_result/"+strconv.Itoa(testID),
+		newResult,
+		&createdResult,
+	)
 	return createdResult, err
 }
 
 // AddResultForCase adds a new result, comment or assigns a test to the case caseID on run runID
-func (c *Client) AddResultForCase(runID, caseID int, newResult SendableResult) (Result, error) {
+func (c *Client) AddResultForCase(
+	runID, caseID int,
+	newResult SendableResult,
+) (Result, error) {
 	createdResult := Result{}
 	uri := "add_result_for_case/" + strconv.Itoa(runID) + "/" + strconv.Itoa(caseID)
 	err := c.sendRequest("POST", uri, newResult, &createdResult)
@@ -155,23 +175,42 @@ func (c *Client) AddResultForCase(runID, caseID int, newResult SendableResult) (
 }
 
 // AddResults adds new results, comment or assigns tests to runID
-func (c *Client) AddResults(runID int, newResult SendableResults) ([]Result, error) {
+func (c *Client) AddResults(runID int, newResult SendableResults) (
+	[]Result,
+	error,
+) {
 	createdResult := []Result{}
-	err := c.sendRequest("POST", "add_results/"+strconv.Itoa(runID), newResult, &createdResult)
+	err := c.sendRequest(
+		"POST",
+		"add_results/"+strconv.Itoa(runID),
+		newResult,
+		&createdResult,
+	)
 	return createdResult, err
 }
 
 // AddResultsForCases adds new results, comments or assigns tests to run runID
 // each result being assigned to a test case
-func (c *Client) AddResultsForCases(runID int, newResult SendableResultsForCase) ([]Result, error) {
+func (c *Client) AddResultsForCases(
+	runID int,
+	newResult SendableResultsForCase,
+) ([]Result, error) {
 	createdResult := []Result{}
-	err := c.sendRequest("POST", "add_results_for_cases/"+strconv.Itoa(runID), newResult, &createdResult)
+	err := c.sendRequest(
+		"POST",
+		"add_results_for_cases/"+strconv.Itoa(runID),
+		newResult,
+		&createdResult,
+	)
 	return createdResult, err
 }
 
 // applyFiltersForCaseResults go through each possible filters and create the
 // uri for the wanted ones
-func applyFiltersForCaseResults(uri string, filters RequestFilterForCaseResults) string {
+func applyFiltersForCaseResults(
+	uri string,
+	filters RequestFilterForCaseResults,
+) string {
 	if filters.Limit != nil {
 		uri = uri + "&limit=" + strconv.Itoa(*filters.Limit)
 	}
@@ -187,7 +226,10 @@ func applyFiltersForCaseResults(uri string, filters RequestFilterForCaseResults)
 
 // applyFiltersForCaseResults go through each possible filters and create the
 // uri for the wanted ones
-func applyFiltersForRunResults(uri string, filters RequestFilterForRunResults) string {
+func applyFiltersForRunResults(
+	uri string,
+	filters RequestFilterForRunResults,
+) string {
 	if filters.CreatedAfter != "" {
 		uri = uri + "&created_after=" + filters.CreatedAfter
 	}

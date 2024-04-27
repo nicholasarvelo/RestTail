@@ -1,46 +1,44 @@
-testrail
+RestTail
 --------
 
-testrail is a Go client library for accessing the [TestRail](http://www.gurock.com/testrail/) API
-
-**travis-ci:** [![Build Status](https://travis-ci.org/educlos/testrail.svg?branch=master)](https://travis-ci.org/educlos/testrail)
-
-**GoDoc:** [![GoDoc](https://godoc.org/github.com/educlos/testrail?status.svg)](https://godoc.org/github.com/educlos/testrail)
-
-**Test Coverage:** 9.52%
-
-References
-----------
-[https://godoc.org/github.com/educlos/testrail](https://godoc.org/github.com/educlos/testrail)
+RestTail is a Go client library for interacting with the [TestRail](http://www.gurock.com/testrail/) API
 
 
 Example usage
 -------------
 
-```
+```go
   package main
 
-  import "github.com/educlos/testrail"
+  import "github.com/nicholasarvelo/RestTail"
 
   func main(){
 
-    username := os.Getenv("TESTRAIL_USERNAME")
-    password := os.Getenv("TESTRAIL_TOKEN")
+    url := flag.String(
+		"testrail-url",
+		"",
+		"(Required) TrailRail Account URL",
+	)
 
-    client := testrail.NewClient("https://example.testrail.com", username, password)
+	username := flag.String(
+		"testrail-username",
+		"",
+		"(Required) The TestRail username",
+	)
 
-    projectID := 1
-    suiteID := 11
-    cases, err := client.GetCases(projectID, suiteID)
+	password := flag.String(
+		"testrail-password",
+		"",
+		"(Required) The TestRail password",
+	)
 
-    for _, c := range cases{
-      fmt.Println(c.ID)
-    }
+	flag.Parse()
+
+	if *username == "" || *password == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	apiClient := resttail.NewClient(*url, *username, *password)
   }
 ```
-
-
-License
--------
-
-MIT

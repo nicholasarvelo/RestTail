@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"bytes"
@@ -36,7 +36,12 @@ func newResponse(body string) *http.Response {
 func TestSendRequest(t *testing.T) {
 	testClient(t)
 
-	c := NewCustomClient("http://example.com", "testUsername", "testPassword", NewTestClient(newResponse(`{ "status_id": 1 }`), nil))
+	c := NewCustomClient(
+		"http://example.com",
+		"testUsername",
+		"testPassword",
+		NewTestClient(newResponse(`{ "status_id": 1 }`), nil),
+	)
 
 	testValidGetRequest(t, c)
 	testInvalidGetRequest(t, c)

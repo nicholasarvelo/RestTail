@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 type CaseType struct {
 	ID        int    `json:"id"`

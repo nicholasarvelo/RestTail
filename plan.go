@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -75,13 +75,21 @@ type SendableEntry struct {
 // GetPlan returns the existing plan planID
 func (c *Client) GetPlan(planID int) (Plan, error) {
 	returnPlan := Plan{}
-	err := c.sendRequest("GET", "get_plan/"+strconv.Itoa(planID), nil, &returnPlan)
+	err := c.sendRequest(
+		"GET",
+		"get_plan/"+strconv.Itoa(planID),
+		nil,
+		&returnPlan,
+	)
 	return returnPlan, err
 }
 
 // GetPlans returns the list of plans for the project projectID
 // validating the filters
-func (c *Client) GetPlans(projectID int, filters ...RequestFilterForPlan) ([]Plan, error) {
+func (c *Client) GetPlans(
+	projectID int,
+	filters ...RequestFilterForPlan,
+) ([]Plan, error) {
 	uri := "get_plans/" + strconv.Itoa(projectID)
 	if len(filters) > 0 {
 		uri = applyFiltersForPlan(uri, filters[0])
@@ -101,26 +109,48 @@ func (c *Client) GetPlans(projectID int, filters ...RequestFilterForPlan) ([]Pla
 // AddPlan creates a new plan on project projectID and returns it
 func (c *Client) AddPlan(projectID int, newPlan SendablePlan) (Plan, error) {
 	createdPlan := Plan{}
-	err := c.sendRequest("POST", "add_plan/"+strconv.Itoa(projectID), newPlan, &createdPlan)
+	err := c.sendRequest(
+		"POST",
+		"add_plan/"+strconv.Itoa(projectID),
+		newPlan,
+		&createdPlan,
+	)
 	return createdPlan, err
 }
 
 // AddPlanEntry creates a new entry on plan planID and returns it
-func (c *Client) AddPlanEntry(planID int, newEntry SendableEntry) (Entry, error) {
+func (c *Client) AddPlanEntry(planID int, newEntry SendableEntry) (
+	Entry,
+	error,
+) {
 	createdEntry := Entry{}
-	err := c.sendRequest("POST", "add_plan_entry/"+strconv.Itoa(planID), newEntry, &createdEntry)
+	err := c.sendRequest(
+		"POST",
+		"add_plan_entry/"+strconv.Itoa(planID),
+		newEntry,
+		&createdEntry,
+	)
 	return createdEntry, err
 }
 
 // UpdatePlan updates the existing plan planID and returns it
 func (c *Client) UpdatePlan(planID int, updates SendablePlan) (Plan, error) {
 	updatedPlan := Plan{}
-	err := c.sendRequest("POST", "update_plan/"+strconv.Itoa(planID), updates, &updatedPlan)
+	err := c.sendRequest(
+		"POST",
+		"update_plan/"+strconv.Itoa(planID),
+		updates,
+		&updatedPlan,
+	)
 	return updatedPlan, err
 }
 
 // UpdatePlanEntry updates the entry entryID on plan planID and returns it
-func (c *Client) UpdatePlanEntry(planID int, entryID string, updates SendableEntry) (Entry, error) {
+func (c *Client) UpdatePlanEntry(
+	planID int,
+	entryID string,
+	updates SendableEntry,
+) (Entry, error) {
 	uri := "update_plan_entry/" + strconv.Itoa(planID) + "/" + entryID
 	updatedEntry := Entry{}
 	err := c.sendRequest("POST", uri, updates, &updatedEntry)
@@ -130,7 +160,12 @@ func (c *Client) UpdatePlanEntry(planID int, entryID string, updates SendableEnt
 // ClosePlan closes the plan planID and returns it
 func (c *Client) ClosePlan(planID int) (Plan, error) {
 	deletedPlan := Plan{}
-	err := c.sendRequest("POST", "close_plan/"+strconv.Itoa(planID), nil, &deletedPlan)
+	err := c.sendRequest(
+		"POST",
+		"close_plan/"+strconv.Itoa(planID),
+		nil,
+		&deletedPlan,
+	)
 	return deletedPlan, err
 }
 

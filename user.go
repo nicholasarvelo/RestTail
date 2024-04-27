@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -13,14 +13,24 @@ type User struct {
 // GetUser returns the user userID
 func (c *Client) GetUser(userID int) (User, error) {
 	returnUser := User{}
-	err := c.sendRequest("GET", "get_user/"+strconv.Itoa(userID), nil, &returnUser)
+	err := c.sendRequest(
+		"GET",
+		"get_user/"+strconv.Itoa(userID),
+		nil,
+		&returnUser,
+	)
 	return returnUser, err
 }
 
 // GetUserByEmail returns the user corresponding to email email
 func (c *Client) GetUserByEmail(email string) (User, error) {
 	returnUser := User{}
-	err := c.sendRequest("GET", "get_user_by_email&email="+email, nil, &returnUser)
+	err := c.sendRequest(
+		"GET",
+		"get_user_by_email&email="+email,
+		nil,
+		&returnUser,
+	)
 	return returnUser, err
 }
 

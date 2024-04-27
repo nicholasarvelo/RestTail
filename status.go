@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 // Status represents a Status
 type Status struct {

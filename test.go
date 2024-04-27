@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -25,7 +25,12 @@ type Tests struct {
 // GetTest returns the test testID
 func (c *Client) GetTest(testID int) (Test, error) {
 	returnTest := Test{}
-	err := c.sendRequest("GET", "get_test/"+strconv.Itoa(testID), nil, &returnTest)
+	err := c.sendRequest(
+		"GET",
+		"get_test/"+strconv.Itoa(testID),
+		nil,
+		&returnTest,
+	)
 	return returnTest, err
 }
 

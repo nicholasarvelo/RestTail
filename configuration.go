@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "fmt"
 
@@ -18,7 +18,15 @@ type Config struct {
 }
 
 // GetConfigs returns a list of available configurations on project projectID
-func (c *Client) GetConfigs(projectID int) (configs []Configuration, err error) {
-	err = c.sendRequest("GET", fmt.Sprintf("get_configs/%d", projectID), nil, &configs)
+func (c *Client) GetConfigs(projectID int) (
+	configs []Configuration,
+	err error,
+) {
+	err = c.sendRequest(
+		"GET",
+		fmt.Sprintf("get_configs/%d", projectID),
+		nil,
+		&configs,
+	)
 	return
 }

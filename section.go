@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -32,7 +32,12 @@ type UpdatableSection struct {
 // GetSection returns the section sectionID
 func (c *Client) GetSection(sectionID int) (Section, error) {
 	returnSection := Section{}
-	err := c.sendRequest("GET", "get_section/"+strconv.Itoa(sectionID), nil, &returnSection)
+	err := c.sendRequest(
+		"GET",
+		"get_section/"+strconv.Itoa(sectionID),
+		nil,
+		&returnSection,
+	)
 	return returnSection, err
 }
 
@@ -55,20 +60,41 @@ func (c *Client) GetSections(projectID int, suiteID ...int) ([]Section, error) {
 }
 
 // AddSection creates a new section on projectID and returns it
-func (c *Client) AddSection(projectID int, newSection SendableSection) (Section, error) {
+func (c *Client) AddSection(projectID int, newSection SendableSection) (
+	Section,
+	error,
+) {
 	createdSection := Section{}
-	err := c.sendRequest("POST", "add_section/"+strconv.Itoa(projectID), newSection, &createdSection)
+	err := c.sendRequest(
+		"POST",
+		"add_section/"+strconv.Itoa(projectID),
+		newSection,
+		&createdSection,
+	)
 	return createdSection, err
 }
 
 // UpdateSection updates the section sectionID and returns it
-func (c *Client) UpdateSection(sectionID int, update UpdatableSection) (Section, error) {
+func (c *Client) UpdateSection(sectionID int, update UpdatableSection) (
+	Section,
+	error,
+) {
 	updatedSection := Section{}
-	err := c.sendRequest("POST", "update_section/"+strconv.Itoa(sectionID), update, &updatedSection)
+	err := c.sendRequest(
+		"POST",
+		"update_section/"+strconv.Itoa(sectionID),
+		update,
+		&updatedSection,
+	)
 	return updatedSection, err
 }
 
 // DeleteSection deletes the section sectionID
 func (c *Client) DeleteSection(sectionID int) error {
-	return c.sendRequest("POST", "delete_section/"+strconv.Itoa(sectionID), nil, nil)
+	return c.sendRequest(
+		"POST",
+		"delete_section/"+strconv.Itoa(sectionID),
+		nil,
+		nil,
+	)
 }

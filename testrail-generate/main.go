@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/educlos/testrail"
+	"github.com/nicholasarvelo/RestTail"
 )
 
 func main() {

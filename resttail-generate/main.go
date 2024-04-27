@@ -1,9 +1,8 @@
 package main
 
 import (
+	"github.com/nicholasarvelo/resttail"
 	"os"
-
-	"github.com/nicholasarvelo/RestTail"
 )
 
 func main() {
@@ -14,7 +13,7 @@ func main() {
 	username := os.Getenv("TESTRAIL_USERNAME")
 	password := os.Getenv("TESTRAIL_TOKEN")
 
-	client := testrail.NewClient(url, username, password)
+	client := resttail.NewClient(url, username, password)
 
 	err := client.GenerateCustom()
 	if err != nil {

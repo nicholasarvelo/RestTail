@@ -5,15 +5,41 @@ import (
 	"strconv"
 )
 
+type Groups struct {
+	ID     int    `json:"id"`
+	Role   string `json:"role"`
+	RoleID int    `json:"role_id"`
+}
+
+type Users struct {
+	GlobalRole    *int `json:"global_role"`
+	GlobalRoleID  *int `json:"global_role_id"`
+	ID            int  `json:"id"`
+	ProjectRole   *int `json:"project_role"`
+	ProjectRoleID *int `json:"project_role_id"`
+}
+
 // Project represents a Project
 type Project struct {
-	Announcement     string `json:"announcement"`
-	CompletedOn      int    `json:"completed_on"`
-	ID               int    `json:"id"`
-	IsCompleted      bool   `json:"is_completed"`
-	Name             string `json:"name"`
-	ShowAnnouncement bool   `json:"show_announcement"`
-	URL              string `json:"url"`
+	Announcement     string   `json:"announcement"`
+	CompletedOn      int      `json:"completed_on"`
+	Groups           []Groups `json:"groups"`
+	ID               int      `json:"id"`
+	IsCompleted      bool     `json:"is_completed"`
+	Name             string   `json:"name"`
+	DefaultRoleID    int      `json:"default_role_id"`
+	DefaultRole      string   `json:"default_role"`
+	ShowAnnouncement bool     `json:"show_announcement"`
+	SuiteMode        int      `json:"suite_mode"`
+	URL              string   `json:"url"`
+	Users            []Users  `json:"users"`
+}
+
+type Projects struct {
+	Links    Links     `json:"_links"`
+	Limit    int       `json:"limit"`
+	Offset   int       `json:"offset"`
+	Projects []Project `json:"projects"`
 }
 
 // SendableProject represents a Project

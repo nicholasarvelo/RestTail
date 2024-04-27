@@ -65,13 +65,19 @@ func (c *Client) GetProject(projectID int) (Project, error) {
 
 // GetProjects returns a list available projects
 // can be filtered by completed status of the project
-func (c *Client) GetProjects(isCompleted ...bool) ([]Project, error) {
+func (c *Client) GetProjects(isCompleted ...bool) (Projects, error) {
 	uri := "get_projects"
 	if len(isCompleted) > 0 {
 		uri = uri + "&is_completed=" + btoitos(isCompleted[0])
 	}
 
-	returnProjects := []Project{}
+	returnProjects := Projects{
+		Links:    Links{},
+		Limit:    0,
+		Offset:   0,
+		Projects: nil,
+	}
+
 	var err error
 	if c.useBetaApi {
 		err = c.sendRequestBeta("GET", uri, nil, &returnProjects, "projects")

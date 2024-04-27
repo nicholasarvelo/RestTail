@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "fmt"
 
@@ -80,14 +80,22 @@ type SendableCase struct {
 // GetCase returns the existing Test Case caseID
 func (c *Client) GetCase(caseID int) (Case, error) {
 	returnCase := Case{}
-	err := c.sendRequest("GET", fmt.Sprintf("get_case/%d", caseID), nil, &returnCase)
+	err := c.sendRequest(
+		"GET",
+		fmt.Sprintf("get_case/%d", caseID),
+		nil,
+		&returnCase,
+	)
 	return returnCase, err
 }
 
 // GetCases returns a list of Test Cases on project projectID
 // for a Test Suite suiteID
 // or for specific section sectionID in a Test Suite
-func (c *Client) GetCases(projectID, suiteID int, sectionID ...int) ([]Case, error) {
+func (c *Client) GetCases(projectID, suiteID int, sectionID ...int) (
+	[]Case,
+	error,
+) {
 	uri := fmt.Sprintf("get_cases/%d&suite_id=%d", projectID, suiteID)
 	if len(sectionID) > 0 {
 		uri = fmt.Sprintf("%s&section_id=%d", uri, sectionID[0])
@@ -106,7 +114,11 @@ func (c *Client) GetCases(projectID, suiteID int, sectionID ...int) ([]Case, err
 // GetCasesWithCustomFields returns a interface that can be mapped to an array that contains custom fields
 // on project projectID for a Test Suite suiteID
 // or for specific section sectionID in a Test Suite
-func (c *Client) GetCasesWithCustomFields(projectID, suiteID int, customArray interface{}, sectionID ...int) error {
+func (c *Client) GetCasesWithCustomFields(
+	projectID, suiteID int,
+	customArray interface{},
+	sectionID ...int,
+) error {
 	uri := fmt.Sprintf("get_cases/%d&suite_id=%d", projectID, suiteID)
 	if len(sectionID) > 0 {
 		uri = fmt.Sprintf("%s&section_id=%d", uri, sectionID[0])
@@ -123,7 +135,10 @@ func (c *Client) GetCasesWithCustomFields(projectID, suiteID int, customArray in
 
 // GetCasesWithFilters returns a list of Test Cases on project projectID
 // for a Test Suite suiteID validating the filters
-func (c *Client) GetCasesWithFilters(projectID, suiteID int, filters ...RequestFilterForCases) ([]Case, error) {
+func (c *Client) GetCasesWithFilters(
+	projectID, suiteID int,
+	filters ...RequestFilterForCases,
+) ([]Case, error) {
 	uri := fmt.Sprintf("get_cases/%d&suite_id=%d", projectID, suiteID)
 	if len(filters) > 0 {
 		uri = applyFiltersForCase(uri, filters[0])
@@ -138,20 +153,35 @@ func (c *Client) GetCasesWithFilters(projectID, suiteID int, filters ...RequestF
 // AddCase creates a new Test Case newCase and returns it
 func (c *Client) AddCase(sectionID int, newCase SendableCase) (Case, error) {
 	createdCase := Case{}
-	err := c.sendRequest("POST", fmt.Sprintf("add_case/%d", sectionID), newCase, &createdCase)
+	err := c.sendRequest(
+		"POST",
+		fmt.Sprintf("add_case/%d", sectionID),
+		newCase,
+		&createdCase,
+	)
 	return createdCase, err
 }
 
 // UpdateCase updates an existing Test Case caseID and returns it
 func (c *Client) UpdateCase(caseID int, updates SendableCase) (Case, error) {
 	updatedCase := Case{}
-	err := c.sendRequest("POST", fmt.Sprintf("update_case/%d", caseID), updates, &updatedCase)
+	err := c.sendRequest(
+		"POST",
+		fmt.Sprintf("update_case/%d", caseID),
+		updates,
+		&updatedCase,
+	)
 	return updatedCase, err
 }
 
 // DeleteCase deletes the existing Test Case caseID
 func (c *Client) DeleteCase(caseID int) error {
-	return c.sendRequest("POST", fmt.Sprintf("delete_case/%d", caseID), nil, nil)
+	return c.sendRequest(
+		"POST",
+		fmt.Sprintf("delete_case/%d", caseID),
+		nil,
+		nil,
+	)
 }
 
 // applyFiltersForCase go through each possible filters and create the

@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"encoding/json"

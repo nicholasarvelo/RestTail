@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"strconv"
@@ -27,13 +27,21 @@ type SendableMilestone struct {
 // GetMilestone returns the existing milestone milestoneID
 func (c *Client) GetMilestone(milestoneID int) (Milestone, error) {
 	returnMilestone := Milestone{}
-	err := c.sendRequest("GET", "get_milestone/"+strconv.Itoa(milestoneID), nil, &returnMilestone)
+	err := c.sendRequest(
+		"GET",
+		"get_milestone/"+strconv.Itoa(milestoneID),
+		nil,
+		&returnMilestone,
+	)
 	return returnMilestone, err
 }
 
 // GetMilestones returns the list of milestones for the project projectID
 // can be filtered by completed status of the milestones
-func (c *Client) GetMilestones(projectID int, isCompleted ...bool) ([]Milestone, error) {
+func (c *Client) GetMilestones(projectID int, isCompleted ...bool) (
+	[]Milestone,
+	error,
+) {
 	uri := "get_milestones/" + strconv.Itoa(projectID)
 	if len(isCompleted) > 0 {
 		uri = uri + "&is_completed=" + btoitos(isCompleted[0])
@@ -42,7 +50,13 @@ func (c *Client) GetMilestones(projectID int, isCompleted ...bool) ([]Milestone,
 	returnMilestones := []Milestone{}
 
 	if c.useBetaApi {
-		err = c.sendRequestBeta("GET", uri, nil, &returnMilestones, "milestones")
+		err = c.sendRequestBeta(
+			"GET",
+			uri,
+			nil,
+			&returnMilestones,
+			"milestones",
+		)
 	} else {
 		err = c.sendRequest("GET", uri, nil, &returnMilestones)
 	}
@@ -51,20 +65,41 @@ func (c *Client) GetMilestones(projectID int, isCompleted ...bool) ([]Milestone,
 }
 
 // AddMilestone creates a new milestone on project projectID and returns it
-func (c *Client) AddMilestone(projectID int, newMilestone SendableMilestone) (Milestone, error) {
+func (c *Client) AddMilestone(
+	projectID int,
+	newMilestone SendableMilestone,
+) (Milestone, error) {
 	createdMilestone := Milestone{}
-	err := c.sendRequest("POST", "add_milestone/"+strconv.Itoa(projectID), newMilestone, &createdMilestone)
+	err := c.sendRequest(
+		"POST",
+		"add_milestone/"+strconv.Itoa(projectID),
+		newMilestone,
+		&createdMilestone,
+	)
 	return createdMilestone, err
 }
 
 // UpdateMilestone updates the existing milestone milestoneID an returns it
-func (c *Client) UpdateMilestone(milestoneID int, updates SendableMilestone) (Milestone, error) {
+func (c *Client) UpdateMilestone(
+	milestoneID int,
+	updates SendableMilestone,
+) (Milestone, error) {
 	updatedMilestone := Milestone{}
-	err := c.sendRequest("POST", "update_milestone/"+strconv.Itoa(milestoneID), updates, &updatedMilestone)
+	err := c.sendRequest(
+		"POST",
+		"update_milestone/"+strconv.Itoa(milestoneID),
+		updates,
+		&updatedMilestone,
+	)
 	return updatedMilestone, err
 }
 
 // DeleteMilestone deletes the milestone milestoneID
 func (c *Client) DeleteMilestone(milestoneID int) error {
-	return c.sendRequest("POST", "delete_milestone/"+strconv.Itoa(milestoneID), nil, nil)
+	return c.sendRequest(
+		"POST",
+		"delete_milestone/"+strconv.Itoa(milestoneID),
+		nil,
+		nil,
+	)
 }

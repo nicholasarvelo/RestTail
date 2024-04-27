@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import (
 	"encoding/json"
@@ -29,11 +29,12 @@ func TimespanFromDuration(duration time.Duration) *timespan {
 
 // Unmarshal TestRail timespan into a time.Duration.
 // Transform TestRail-specific formats into something time.ParseDuration understands:
-//   "4h 5m 6s" => "4h5m6s"
-//   "1d" => "8h"
-//   "1w" => "40h"
-//   "1d 2h" => "8h2h"
-//   "1w 2d 3h" => "40h16h3h"
+//
+//	"4h 5m 6s" => "4h5m6s"
+//	"1d" => "8h"
+//	"1w" => "40h"
+//	"1d 2h" => "8h2h"
+//	"1w 2d 3h" => "40h16h3h"
 func (tsp *timespan) UnmarshalJSON(data []byte) error {
 	const (
 		// These are hardcoded in TestRail.

@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 // ResultField represents a ResultField
 type ResultField struct {

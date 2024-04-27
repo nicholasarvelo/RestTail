@@ -1,4 +1,4 @@
-package testrail
+package resttail
 
 import "strconv"
 
@@ -81,7 +81,10 @@ func (c *Client) GetRun(runID int) (Run, error) {
 
 // GetRuns returns the list of runs of projectID
 // validating the filters
-func (c *Client) GetRuns(projectID int, filters ...RequestFilterForRun) ([]Run, error) {
+func (c *Client) GetRuns(projectID int, filters ...RequestFilterForRun) (
+	[]Run,
+	error,
+) {
 	uri := "get_runs/" + strconv.Itoa(projectID)
 	if len(filters) > 0 {
 		uri = applyFiltersForRuns(uri, filters[0])
@@ -100,14 +103,24 @@ func (c *Client) GetRuns(projectID int, filters ...RequestFilterForRun) ([]Run, 
 // AddRun creates a new run on projectID and returns it
 func (c *Client) AddRun(projectID int, newRun SendableRun) (Run, error) {
 	createdRun := Run{}
-	err := c.sendRequest("POST", "add_run/"+strconv.Itoa(projectID), newRun, &createdRun)
+	err := c.sendRequest(
+		"POST",
+		"add_run/"+strconv.Itoa(projectID),
+		newRun,
+		&createdRun,
+	)
 	return createdRun, err
 }
 
 // UpdateRun updates the run runID and returns it
 func (c *Client) UpdateRun(runID int, update UpdatableRun) (Run, error) {
 	updatedRun := Run{}
-	err := c.sendRequest("POST", "update_run/"+strconv.Itoa(runID), update, &updatedRun)
+	err := c.sendRequest(
+		"POST",
+		"update_run/"+strconv.Itoa(runID),
+		update,
+		&updatedRun,
+	)
 	return updatedRun, err
 }
 
@@ -116,7 +129,12 @@ func (c *Client) UpdateRun(runID int, update UpdatableRun) (Run, error) {
 // and returns it
 func (c *Client) CloseRun(runID int) (Run, error) {
 	closedRun := Run{}
-	err := c.sendRequest("POST", "close_run/"+strconv.Itoa(runID), nil, &closedRun)
+	err := c.sendRequest(
+		"POST",
+		"close_run/"+strconv.Itoa(runID),
+		nil,
+		&closedRun,
+	)
 	return closedRun, err
 }
 

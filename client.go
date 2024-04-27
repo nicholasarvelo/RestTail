@@ -1,5 +1,5 @@
 // testrail provides a go api for testrail
-package testrail
+package resttail
 
 import (
 	"bytes"
@@ -37,7 +37,11 @@ func NewClient(url, username, password string, useBetaApi ...bool) (c *Client) {
 // with the given credential
 // for the given testrail domain
 // and custom http Client
-func NewCustomClient(url, username, password string, customHttpClient *http.Client, useBetaApi ...bool) (c *Client) {
+func NewCustomClient(
+	url, username, password string,
+	customHttpClient *http.Client,
+	useBetaApi ...bool,
+) (c *Client) {
 	c = &Client{}
 	c.username = username
 	c.password = password
@@ -100,7 +104,11 @@ func (c *Client) sendRequest(method, uri string, data, v interface{}) error {
 	}
 
 	if resp.StatusCode >= http.StatusBadRequest {
-		return fmt.Errorf("response: status: %q, body: %s", resp.Status, jsonCnt)
+		return fmt.Errorf(
+			"response: status: %q, body: %s",
+			resp.Status,
+			jsonCnt,
+		)
 	}
 
 	if v != nil {
@@ -118,7 +126,11 @@ type Links struct {
 	Prev *string `json:"prev"`
 }
 
-func (c *Client) sendRequestBeta(method, uri string, data, v interface{}, itemsKeyName string) error {
+func (c *Client) sendRequestBeta(
+	method, uri string,
+	data, v interface{},
+	itemsKeyName string,
+) error {
 	var wraperMap map[string]json.RawMessage
 	var returnItems []interface{}
 	var tempItems []interface{}

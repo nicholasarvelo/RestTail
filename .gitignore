@@ -1,16 +1,19 @@
-client.sublime-workspace
-.DS_Store
-.idea/
-.vscode/
-.project
-__pycache__/
-.pytest_cache/
-vendor/
-*.ipk
-*.pyc
-*.swp
-*.class
-*.dylib
-*.so
-*.log*
-*_cache.json
+# Allowlisting gitignore template for GO projects prevents us
+# from adding various unwanted local files, such as generated
+# files, developer configurations or IDE-specific files etc.
+
+# Ignore everything
+*
+
+# Except these files and directories...
+!*.go
+!.github/
+!.gitignore
+!.golangci.yaml
+!LICENSE.md
+!README.md
+!go.mod
+!go.sum
+
+# ...even if they are in subdirectories
+!*/

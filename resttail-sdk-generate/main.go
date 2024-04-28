@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/nicholasarvelo/resttail"
+	"github.com/nicholasarvelo/resttail-sdk"
 	"os"
 )
 

@@ -1,7 +1,7 @@
 
 ![RestTail Logo](https://raw.githubusercontent.com/nicholasarvelo/resttail-sdk/main/.github/assets/logo.png)
 
-RestTail is an SDK written in Go for interacting with the [TestRail's API](http://www.gurock.com/testrail/)
+## RestTail is an SDK written in Go for interacting with [TestRail's API](http://www.gurock.com/testrail/)
 
 
 Example usage
@@ -17,7 +17,7 @@ import (
     "os"
     "strings"
 
-    "github.com/nicholasarvelo/resttail"
+    "github.com/nicholasarvelo/resttail-sdk"
 )
 
 func main() {
